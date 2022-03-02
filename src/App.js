@@ -1,7 +1,7 @@
-import React from "react";
-import logo from "./logo.svg";
-import { Counter } from "./features/counter/Counter";
-import "./App.css";
+import React from 'react'
+import logo from './logo.svg'
+import { Counter } from './features/counter/Counter'
+import './App.css'
 
 class App extends React.Component {
   render() {
@@ -53,8 +53,8 @@ class App extends React.Component {
           </span>
         </header>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
