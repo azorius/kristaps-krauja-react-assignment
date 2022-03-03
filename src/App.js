@@ -1,57 +1,54 @@
 import React from 'react'
-import logo from './logo.svg'
-import { Counter } from './features/counter/Counter'
 import './App.css'
+import ProductList from './features/productList/ProductList'
+import { Query, Field, client } from '@tilework/opus'
+
+client.setEndpoint('http://localhost:4000/')
 
 class App extends React.Component {
+  state = {
+    categories: [],
+    products: [],
+  }
+  fetchCategories = () => {
+    const query = new Query('categories', true).addField('name')
+
+    client
+      .post(query)
+      .then((result) => this.setState({ categories: result.categories }))
+    console.log(this.state)
+  }
+
+  fetchProducts = () => {
+    const query = new Query('category', true)
+      .addArgument('title', 'tech')
+      .addField('name')
+      .addField(new Field('products').addFieldList(['id', 'name', 'category']))
+
+    client
+      .post(query)
+      .then((result) => this.setState({ products: result.category.products }))
+    console.log(this.state)
+  }
+
+  componentDidMount() {
+    this.fetchCategories()
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <Counter />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <span>
-            <span>Learn </span>
-            <a
-              className="App-link"
-              href="https://reactjs.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              React
-            </a>
-            <span>, </span>
-            <a
-              className="App-link"
-              href="https://redux.js.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Redux
-            </a>
-            <span>, </span>
-            <a
-              className="App-link"
-              href="https://redux-toolkit.js.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Redux Toolkit
-            </a>
-            ,<span> and </span>
-            <a
-              className="App-link"
-              href="https://react-redux.js.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              React Redux
-            </a>
-          </span>
-        </header>
+      <div>
+        <button onClick={this.fetchCategories}>Load Stuff</button>
+        {this.state.categories.length > 0 &&
+          this.state.categories.map((category) => (
+            <button onClick={this.fetchProducts} key={category.name}>
+              {category.name}
+            </button>
+          ))}
+        {this.state.products.length > 0 &&
+          this.state.products.map((product) => (
+            <div key={product.id}>{product.id}</div>
+          ))}
       </div>
     )
   }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Query } from '@tilework/opus'
 
 class ProductList extends React.Component {
   render() {
