@@ -17,7 +17,6 @@ class App extends React.Component {
     client
       .post(query)
       .then((result) => this.setState({ categories: result.categories }))
-    console.log(this.state)
   }
 
   fetchProducts = (category) => {
@@ -31,7 +30,6 @@ class App extends React.Component {
     client
       .post(query)
       .then((result) => this.setState({ products: result.category.products }))
-    console.log(this.state)
   }
 
   fetchProduct = (id) => {
@@ -42,7 +40,6 @@ class App extends React.Component {
     client
       .post(query)
       .then((result) => this.setState({ product: result.product }))
-    console.log(this.state)
   }
 
   componentDidMount() {
