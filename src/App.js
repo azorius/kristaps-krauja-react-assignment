@@ -9,7 +9,7 @@ class App extends React.Component {
   state = {
     categories: [],
     products: [],
-    product: {},
+    product: null,
   }
   fetchCategories = () => {
     const query = new Query('categories', true).addField('name')
